@@ -43,11 +43,14 @@ class Server:
         Returns:
             List[List[str]]: A list of rows corresponding to the requested page
         """
-        assert isinstance(page, int) and page > 0,
-        assert isinstance(page_size, int) and page_size > 0,
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
 
         start_index, end_index = index_range(page, page_size)
-        if start_index >= len(self.dataset):
+        dataset = self.dataset()
+        end_index = min(end_index, len(dataset))
+
+        if start_index >= len(dataset):
             return []
 
-        return self.dataset[start_index:end_index]
+        return dataset[start_index:end_index]

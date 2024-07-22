@@ -67,17 +67,14 @@ class Server:
             Dict[str, Any]: A dictionary with pagination information.
         """
         page_data = self.get_page(page, page_size)
-        total_pages = math.ceil(len(self.dataset()) / page_size)
-
-        next_page = page + 1 if page * page_size < len(self.dataset())
-        else None
-        prev_page = page - 1 if page > 1 else None
+        start_index, end_index = index_range(page, page_size)
+        total_pages = math.ceil(len(self.dataset) / page_size)
 
         return {
                 "page_size": len(page_data),
                 "page": page,
                 "data": page_data,
-                "next_page": next_page,
-                "prev_page": prev_page,
+                "next_page": page + 1 if end_index < len(self.dataset) else None,
+                "prev_page": page - 1 if start_index > 0 else None,
                 "total_pages": total_pages
                 }

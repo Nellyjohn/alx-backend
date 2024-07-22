@@ -33,7 +33,7 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-    	"""
+        """
         Returns a page of the dataset.
 
         Args:
@@ -41,14 +41,13 @@ class Server:
             page_size (int): The number of items per page.
 
         Returns:
-            List[List[str]]: A list of rows corresponding to the requested page.
+            List[List[str]]: A list of rows corresponding to the requested page
         """
-		assert isinstance(page, int) and page > 0,
-		assert isinstance(page_size, int) and page_size > 0,
+        assert isinstance(page, int) and page > 0,
+        assert isinstance(page_size, int) and page_size > 0,
 
-		start_index, end_index = index_range(page, page_size)
+        start_index, end_index = index_range(page, page_size)
+        if start_index >= len(self.dataset):
+            return []
 
-		if start_index >= len(self.data):
-			return []
-
-		return self.data[start_index:end_index]
+        return self.dataset[start_index:end_index]
